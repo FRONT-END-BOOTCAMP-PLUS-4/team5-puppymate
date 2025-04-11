@@ -5,9 +5,9 @@ PuppyMate is a community app where dog owners can share and discover walking rou
 Developed by Team 5 as part of a bootcamp to practice Clean Architecture and teamwork in a full-stack environment.
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js, TypeScript, TanStackQuery
+- **Frontend**: Next.js, TypeScript, TanStackQuery, Zustand
 - **Map API**: Kakao Map API
-- **Styling**: CSS Modules, Emotion
+- **Styling**: shadcn/UI
 - **Architecture**: Clean Architecture 기반 구조 학습 중
 
 ## ✨ Features
