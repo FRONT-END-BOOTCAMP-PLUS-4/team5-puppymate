@@ -63,3 +63,28 @@ export async function deletePost(
     throw error;
   }
 }
+export async function updatePost(
+  postId: string,
+    title: string,
+    content: string,
+) {
+  try {
+    const token = localStorage.getItem('authToken');
+    const response = await axios.patch(`${BASE_URL}/${postId}`, {
+      id: postId,
+      title,
+      content,
+   }, {
+      headers: {
+        Authorization: `Bearer ${token}` // 토큰을 Authorization 헤더에 추가
+      }
+   });
+
+    return response.data; 
+  } catch (error: any) {
+    console.error('게시글 수정 실패:', error);
+    throw new Error(
+      error.response?.data?.error || '게시글 수정 중 오류가 발생했습니다.'
+    );
+  }
+}
