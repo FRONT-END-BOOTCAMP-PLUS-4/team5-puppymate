@@ -11,8 +11,14 @@ export class PostDto {
   updatedAt?: Date;
   coordinates: CoordinateDto[];
   images?: string[];
+  isWriter: boolean;
 
-  constructor(post: Post, coordinates: CourseCoordinate[], images: string[]) {
+  constructor(
+    post: Post,
+    coordinates: CourseCoordinate[],
+    images: string[],
+    isWriter: boolean
+  ) {
     this.id = post.id;
     this.userId = post.userId;
     this.courseId = post.courseId;
@@ -24,5 +30,6 @@ export class PostDto {
       coordinate => new CoordinateDto(coordinate.lat, coordinate.lng)
     );
     this.images = images;
+    this.isWriter = isWriter;
   }
 }
