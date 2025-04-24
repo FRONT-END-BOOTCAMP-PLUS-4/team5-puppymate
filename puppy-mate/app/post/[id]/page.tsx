@@ -17,7 +17,6 @@ export default function PostDetailPage() {
   const params = useParams();
   const postId = params?.id as string;
   const { post, isLoading, error } = usePostQuery(postId);
-  console.log(post, post?.images)
   useKakaoLoader();
 
   if (isLoading) return <div>Loading...</div>;
@@ -71,10 +70,12 @@ export default function PostDetailPage() {
         <Button variant="ghost" onClick={() => window.history.back()}>
           ← 목록으로
         </Button>
+        {post.isWriter && (
         <div className="space-x-2">
           <Button variant="outline">수정</Button>
           <Button variant="destructive">삭제</Button>
         </div>
+        )}
       </div>
     </div>
   );
