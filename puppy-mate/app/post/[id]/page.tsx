@@ -1,7 +1,6 @@
 'use client';
-
 import { usePostQuery } from '@/queries/Post';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,16 +11,31 @@ import {
 import SnapShotMap from '@/app/components/map/SnapShotMap';
 import useKakaoLoader from '@/lib/use-kakao-loader';
 import { formatDate } from '@/utils/common';
+import { deletePost } from '@/api/post';
 
 export default function PostDetailPage() {
   const params = useParams();
   const postId = params?.id as string;
   const { post, isLoading, error } = usePostQuery(postId);
   useKakaoLoader();
+  const router = useRouter();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading post</div>;
   if (!post) return <div>Post not found</div>;
+  const handleDeleteBtnClick = async () => {
+    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+    if (!confirmDelete) return;
+    try {
+      const result = await deletePost(postId);
+      if (result.isSuccess) {
+        alert(result.message); // 예: "삭제되었습니다."
+        router.push("/"); // 홈이나 목록 페이지 등으로 이동
+      }
+    } catch (err) {
+      alert("삭제에 실패했습니다.");
+    }
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 space-y-6">
@@ -73,7 +87,7 @@ export default function PostDetailPage() {
         {post.isWriter && (
         <div className="space-x-2">
           <Button variant="outline">수정</Button>
-          <Button variant="destructive">삭제</Button>
+          <Button onClick={handleDeleteBtnClick} variant="destructive">삭제</Button>
         </div>
         )}
       </div>
