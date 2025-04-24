@@ -6,6 +6,7 @@ import { SbCoordinatesRepository } from '@/infra/repositories/supabase/SbCoordin
 import { SbPostImageRepository } from '@/infra/repositories/supabase/SbPostImageRepository';
 import { SbPostRepository } from '@/infra/repositories/supabase/SbPostRepository';
 import { SbStorageRepository } from '@/infra/repositories/supabase/SbStorageRepository';
+import { getUserIdFromRequest } from '@/utils/auth';
 import { NextRequest, NextResponse } from 'next/server';
 export async function GET(
   request: NextRequest,
@@ -13,9 +14,12 @@ export async function GET(
 ) {
   try {
     const id = parseInt(params.id);
+    const userId = getUserIdFromRequest(request);
+    let isWriter = false;
     if (!id) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 422 });
     }
+
     const getPostUsecase = new GetPostUsecase(
       new SbPostRepository(),
       new SbCoordinatesRepository(),
@@ -26,7 +30,15 @@ export async function GET(
     if (!postDto) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
     }
-    return NextResponse.json({ data: postDto }, { status: 200 });
+    console.log(postDto.userId, 'reaquest', request, userId);
+    if (userId && postDto.userId === userId) {
+      isWriter = true;
+    }
+
+    return NextResponse.json(
+      { data: { ...postDto, isWriter } },
+      { status: 200 }
+    );
   } catch (error) {
     console.log('Error read Post:', error);
     return NextResponse.json(
