@@ -14,6 +14,7 @@ export const usePostQuery = (postId: string) => {
   return {
     post: postQuery.data,
     isLoading: postQuery.isLoading,
-    error: postQuery.error
+    error: postQuery.error,
+    refetch: postQuery.refetch
   };
 };
