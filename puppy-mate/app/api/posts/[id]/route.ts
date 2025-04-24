@@ -51,8 +51,10 @@ export async function GET(
 export async function PATCH(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userId = 1, id, title, content } = body;
+    const { id, title, content } = body;
+    const userId = getUserIdFromRequest(request);
     if (!userId || !id || !title) {
+      console.log(userId, id, title);
       return NextResponse.json({ error: 'Invalid request' }, { status: 422 });
     }
     const createPostDto = new UpdatePostDto(title, content);
