@@ -30,7 +30,6 @@ export async function createPost(
   return response.data.newPostId;
 }
 
-// API 호출 함수
 export async function getPost(postId: string) {
   try {
     const token = localStorage.getItem('authToken');
@@ -42,6 +41,25 @@ export async function getPost(postId: string) {
     return response.data.data;
   } catch (error) {
     console.error('Failed to fetch post:', error);
+    throw error;
+  }
+}
+
+export async function deletePost(
+  postId: number
+): Promise<{ isSuccess: boolean; message: string }> {
+  try {
+    const token = localStorage.getItem('authToken');
+
+    const response = await axios.delete(`${BASE_URL}/${postId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Failed to delete post:', error);
     throw error;
   }
 }
