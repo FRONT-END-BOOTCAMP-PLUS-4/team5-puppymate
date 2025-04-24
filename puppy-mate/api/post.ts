@@ -33,7 +33,12 @@ export async function createPost(
 // API 호출 함수
 export async function getPost(postId: string) {
   try {
-    const response = await axios<{ data: PostDto }>(`${BASE_URL}/${postId}`);
+    const token = localStorage.getItem('authToken');
+    const response = await axios<{ data: PostDto }>(`${BASE_URL}/${postId}`, {
+      headers: {
+        Authorization: `Bearer ${token}` // 토큰을 Authorization 헤더에 추가
+      }
+    });
     return response.data.data;
   } catch (error) {
     console.error('Failed to fetch post:', error);
