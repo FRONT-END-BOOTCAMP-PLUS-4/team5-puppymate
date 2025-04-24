@@ -36,6 +36,11 @@ export default function PostDetailPage() {
       alert("삭제에 실패했습니다.");
     }
   };
+  const handleEditClick = () => {
+    if (postId) {
+      router.push(`/post/${postId}/edit`); // 수정 페이지로 이동
+    }
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 space-y-6">
@@ -86,7 +91,7 @@ export default function PostDetailPage() {
         </Button>
         {post.isWriter && (
         <div className="space-x-2">
-          <Button variant="outline">수정</Button>
+          <Button onClick={handleEditClick}variant="outline">수정</Button>
           <Button onClick={handleDeleteBtnClick} variant="destructive">삭제</Button>
         </div>
         )}
