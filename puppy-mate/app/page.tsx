@@ -68,9 +68,6 @@ export default function MapPage() {
 
   const { appendCourseIds, clearCourseIds } = useCoursesMapStore();
 
-  // 경로 상세보기 코스 좌표들
-  const { courseCoordinates } = useCoursesMapStore();
-
   // 클러스터 클릭혹은 바깥 클릭시 바텀 시트 스냅 포인트 변경
   // 경로 상세보기 코스 좌표들이 있으면 바텀 시트 고정
   const { snapPoints, setSnapPoint } = useDrawerSnapPointStore();
