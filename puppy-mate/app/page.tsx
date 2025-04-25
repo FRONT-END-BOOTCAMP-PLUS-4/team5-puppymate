@@ -19,6 +19,7 @@ import CourseListDrawer from '@/app/components/post/CourseListDrawer';
 
 // store
 import useCoursesMapStore from '@/store/useCoursesMapStore';
+import useDrawerSnapPointStore from '@/store/useDrawerSnapPoint';
 
 export default function MapPage() {
   // 마커, 클러스터 표시할 코스들 가져오기
@@ -72,12 +73,7 @@ export default function MapPage() {
 
   // 클러스터 클릭혹은 바깥 클릭시 바텀 시트 스냅 포인트 변경
   // 경로 상세보기 코스 좌표들이 있으면 바텀 시트 고정
-  const snapPoints = courseCoordinates.length > 0 ? [0.3, 0.3, 0.3] : [0.3, 0.7, 1];
-  const [snapPoint, setSnapPoint] = useState<number | string | null>(snapPoints[0]);
-
-  const onSnapPointChange = (snapPoint: number | string | null) => {
-    setSnapPoint(snapPoint);
-  };
+  const { snapPoints, setSnapPoint } = useDrawerSnapPointStore();
 
   const handleMarkerClick = (courseId: number) => {
     clearCourseIds();
@@ -105,13 +101,13 @@ export default function MapPage() {
 
   // 경로 상세보기 눌렀을때 바텀 시트 내리기
   // 경로 상세보기 취소 했을때 바텀 시트 올리기
-  useEffect(() => {
-    if (courseCoordinates.length > 0) {
-      setSnapPoint(snapPoints[0]);
-    } else {
-      setSnapPoint(snapPoints[1]);
-    }
-  }, [courseCoordinates]);
+  // useEffect(() => {
+  //   if (courseCoordinates.length > 0) {
+  //     setSnapPoint(snapPoints[0]);
+  //   } else {
+  //     setSnapPoint(snapPoints[1]);
+  //   }
+  // }, [courseCoordinates]);
 
   return (
     <div className="relative w-screen h-screen">
@@ -131,7 +127,7 @@ export default function MapPage() {
       {/* Modal 컴포넌트 */}
       <SaveCourseModal open={isCreateCourseModalOpen} onOpenChange={onModalOpenChange} />
       {/* Course List Drawer */}
-      <CourseListDrawer snapPoints={snapPoints} snapPoint={snapPoint} onSnapPointChange={onSnapPointChange} />
+      <CourseListDrawer />
     </div>
   );
 }

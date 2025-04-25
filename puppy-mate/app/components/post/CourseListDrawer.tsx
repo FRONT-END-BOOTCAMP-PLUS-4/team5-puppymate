@@ -3,17 +3,14 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerPortal } from '
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import CoursePostList from '@/app/components/post/CoursePostList';
-import useCoursesMapStore from '@/store/useCoursesMapStore';
 import { useCourseIdPostQuery } from '@/queries/CourseIdPost';
 import { useRef, useEffect } from 'react';
-interface CourseListDrawerProps {
-  snapPoints: number[];
-  snapPoint: number | string | null;
-  onSnapPointChange: (snapPoint: number | string | null) => void;
-}
 
-function CourseListDrawer({ snapPoints, snapPoint, onSnapPointChange }: CourseListDrawerProps) {
+import useCoursesMapStore from '@/store/useCoursesMapStore';
+import useDrawerSnapPointStore from '@/store/useDrawerSnapPoint';
+function CourseListDrawer() {
   const { courseIds, courseCoordinates, clearCourseCoordinates } = useCoursesMapStore();
+  const { snapPoints, snapPoint, setSnapPoints, setSnapPoint } = useDrawerSnapPointStore();
   const { posts, isLoading, isError, errors } = useCourseIdPostQuery(courseIds);
 
   // 바텀 시트 바깥 클릭시 스냅 포인트 변경
@@ -21,12 +18,17 @@ function CourseListDrawer({ snapPoints, snapPoint, onSnapPointChange }: CourseLi
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (drawerRef.current && !drawerRef.current.contains(event.target as Node)) {
-        onSnapPointChange(snapPoints[0]);
+        setSnapPoint(snapPoints[0]);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // onSnapPointChange 함수 타입 수정
+  const onSnapPointChange = (snapPoint: number | string | null) => {
+    setSnapPoint(snapPoint as number);
+  };
 
   return (
     <Drawer
@@ -46,6 +48,8 @@ function CourseListDrawer({ snapPoints, snapPoint, onSnapPointChange }: CourseLi
                 className="h-10 w-10 rounded-full bg-background/80 backdrop-blur-sm border shadow-md"
                 onClick={() => {
                   clearCourseCoordinates();
+                  setSnapPoints([0.3, 0.7, 1]);
+                  setSnapPoint(0.7);
                 }}>
                 <X className="h-4 w-4" />
               </Button>

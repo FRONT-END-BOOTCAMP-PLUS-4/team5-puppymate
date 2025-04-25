@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import useCoursesMapStore from '@/store/useCoursesMapStore';
 import { Skeleton } from '@/components/ui/skeleton';
+import useDrawerSnapPointStore from '@/store/useDrawerSnapPoint';
+
 interface CoursePostItemProps {
   id: number;
   likes: number;
@@ -47,12 +49,17 @@ const CoursePostItem = ({
     router.push(`/post/${id}`);
   };
 
-  // 경로 상세보기 누를때 zustand Store에 좌표들 저장
+  // 경로 상세보기 누를때 zustand Store에 좌표들 저장, snapPoints 변경 (0.3 으로 고정)
+  const { setSnapPoint, setSnapPoints, snapPoints } = useDrawerSnapPointStore();
   const { setCourseCoordinates, clearCourseCoordinates } = useCoursesMapStore();
   const handleRouteDetailClick = () => {
     clearCourseCoordinates();
     setCourseCoordinates(coordinates);
+    setSnapPoint(snapPoints[0]);
+    setSnapPoints([snapPoints[0], snapPoints[0], snapPoints[0]]);
   };
+
+  // 경로 상세보기 누를때 바텀 시트 스냅 포인트 변경
 
   return (
     <Card className="w-full p-4">
