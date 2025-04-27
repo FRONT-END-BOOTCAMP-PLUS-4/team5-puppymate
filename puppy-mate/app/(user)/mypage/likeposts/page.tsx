@@ -1,5 +1,5 @@
 'use client';
-import { LatLng } from '@/types/Map';
+
 import { useEffect, useState } from 'react';
 import { getLikedPostsWithSnapshot } from '@/api/mypage';
 import {
@@ -22,6 +22,8 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { LuTimer } from 'react-icons/lu';
 import { FaShoePrints, FaRegHeart, FaMapMarkerAlt } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
+import { LatLng } from '@/types/Map';
+import useCoursesMapStore from '@/store/useCoursesMapStore';
 
 export default function LikedPostsPage() {
   const router = useRouter();
@@ -29,6 +31,8 @@ export default function LikedPostsPage() {
     []
   );
   const [loading, setLoading] = useState(true);
+  const { setCourseCoordinates, clearCourseCoordinates } = useCoursesMapStore();
+
   useKakaoLoader();
 
   useEffect(() => {
@@ -45,11 +49,11 @@ export default function LikedPostsPage() {
     fetchLikedPosts();
   }, []);
 
-  const handleFollowBtnClick = (coordinates: LatLng[]) => {
-    // '코스 따라가기' 버튼 클릭 시 코스 따라가기 로직
+  const handleFollowBtnClick = (e: React.MouseEvent, coordinates: LatLng[]) => {
+    e.stopPropagation();
     router.push('/');
-    // 코스 좌표 저장
-    // setCourseCoordinates(coordinates);
+    clearCourseCoordinates();
+    setCourseCoordinates(coordinates);
   };
 
   const handleCardClick = (postId: number) => {
@@ -134,7 +138,7 @@ export default function LikedPostsPage() {
 
               <CardFooter className='[.border-t]:pt-4 items-center flex flex-col gap-2 p-4 border-t border-orange-100'>
                 <Button
-                  onClick={() => handleFollowBtnClick(post.coordinates)}
+                  onClick={(e) => handleFollowBtnClick(e, post.coordinates)}
                   variant='outline'
                   className='w-full border-orange-300 text-orange-600 hover:bg-orange-50 hover:text-orange-700 flex items-center justify-center gap-2 rounded-xl'
                 >
