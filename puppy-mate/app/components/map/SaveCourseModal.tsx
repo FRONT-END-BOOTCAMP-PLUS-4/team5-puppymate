@@ -7,15 +7,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogClose
+  DialogClose,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import useRecordingMapStore from '@/store/useRecordingMapStore';
-import SnapShotMap, {
-  SnapShotMapSkeleton
-} from '@/app/components/map/SnapShotMap';
+import SnapShotMap, { SnapShotMapSkeleton } from '@/app/components/map/SnapShotMap';
 import { saveCourse } from '@/lib/saveCourse';
 
 interface SaveCourseModalProps {
@@ -23,17 +21,10 @@ interface SaveCourseModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export default function SaveCourseModal({
-  open,
-  onOpenChange
-}: SaveCourseModalProps) {
+export default function SaveCourseModal({ open, onOpenChange }: SaveCourseModalProps) {
   const [courseName, setCourseName] = useState('');
 
-  const {
-    clearCourse,
-    stopRecordingCourse,
-    coordinates
-  } = useRecordingMapStore();
+  const { clearCourse, stopRecordingCourse, coordinates } = useRecordingMapStore();
 
   const handleNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -48,15 +39,9 @@ export default function SaveCourseModal({
           <DialogDescription>산책로 정보를 입력해주세요.</DialogDescription>
         </DialogHeader>
         <div className="space-y-3">
-          <Input
-            name="name"
-            placeholder="산책로 이름"
-            onChange={handleNameInputChange}
-          />
+          <Input name="name" placeholder="산책로 이름" onChange={handleNameInputChange} />
         </div>
-        {open
-          ? <SnapShotMap coordinates={coordinates} size={300} />
-          : <SnapShotMapSkeleton size={300} />}
+        {open ? <SnapShotMap coordinates={coordinates} size={300} /> : <SnapShotMapSkeleton size={300} />}
         <DialogFooter>
           <DialogClose asChild>
             <Button
@@ -65,8 +50,7 @@ export default function SaveCourseModal({
                 stopRecordingCourse();
                 onOpenChange(false);
               }}
-              variant="secondary"
-            >
+              variant="secondary">
               산책로 초기화
             </Button>
           </DialogClose>
@@ -78,8 +62,7 @@ export default function SaveCourseModal({
                 stopRecordingCourse();
               }
             }}
-            className="bg-orange-400"
-          >
+            className="bg-orange-400">
             저장
           </Button>
         </DialogFooter>

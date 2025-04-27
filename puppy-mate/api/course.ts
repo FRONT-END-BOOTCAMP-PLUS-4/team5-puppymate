@@ -6,6 +6,9 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '';
 
 interface CreateCourseResponse {
   id: number;
+  newCourse?: {
+    courseId: number;
+  };
 }
 
 export async function createCourse(
@@ -14,7 +17,7 @@ export async function createCourse(
   distance: number,
   duration: number,
   coordinates: LatLng[]
-): Promise<number> {
+): Promise<number | undefined> {
   const response = await axios
     .post<CreateCourseResponse>(`${BASE_URL}/api/courses`, {
       name,
@@ -27,8 +30,9 @@ export async function createCourse(
       console.error('Failed to save course:', error);
       throw error;
     });
-  console.log('BASE_URL:', BASE_URL); // 실제 사용되는 URL 확인용
-  return response.data.id;
+  console.log('Course creation response:', response.data); // 응답 데이터 로깅
+  // 서버 응답 구조에 맞게 수정
+  return response.data.newCourse?.courseId;
 }
 
 export async function getPublicCourses() {

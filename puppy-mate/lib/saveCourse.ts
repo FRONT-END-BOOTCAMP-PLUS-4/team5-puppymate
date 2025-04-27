@@ -41,6 +41,12 @@ export const saveCourse = async (name: string) => {
       duration,
       coordinates.map((coord) => ({ lat: coord.lat, lng: coord.lng }))
     );
+
+    if (!courseId) {
+      toast.error('코스 ID를 받아오지 못했습니다.');
+      return null;
+    }
+
     toast.success('코스 저장에 성공했습니다.');
     return courseId;
   } catch (error) {
