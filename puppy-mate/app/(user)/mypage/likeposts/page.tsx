@@ -1,5 +1,5 @@
 'use client';
-
+import { LatLng } from '@/types/Map';
 import { useEffect, useState } from 'react';
 import { getLikedPostsWithSnapshot } from '@/api/mypage';
 import {
@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter
+  CardFooter,
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import SnapShotMap from '@/app/components/map/SnapShotMap';
@@ -17,13 +17,11 @@ import { useRouter } from 'next/navigation';
 import { GetLikedPostWithSnapshotDto } from '@/application/usecases/postlike/dto/GetLikedPostWithSnapshotDto';
 import { formatDate } from '@/utils/common';
 import Mypageheader from '../components/Mypageheader';
-import { CiCalendar } from "react-icons/ci";
+import { CiCalendar } from 'react-icons/ci';
 import { IoLocationOutline } from 'react-icons/io5';
 import { LuTimer } from 'react-icons/lu';
 import { FaShoePrints, FaRegHeart, FaMapMarkerAlt } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
-import { LatLng } from '@/types/Map';
-import useCoursesMapStore from '@/store/useCoursesMapStore';
 
 export default function LikedPostsPage() {
   const router = useRouter();
@@ -31,8 +29,6 @@ export default function LikedPostsPage() {
     []
   );
   const [loading, setLoading] = useState(true);
-  const { setCourseCoordinates, clearCourseCoordinates } = useCoursesMapStore();
-
   useKakaoLoader();
 
   useEffect(() => {
@@ -49,11 +45,11 @@ export default function LikedPostsPage() {
     fetchLikedPosts();
   }, []);
 
-  const handleFollowBtnClick = (e:React.MouseEvent,coordinates: LatLng[]) => {
-    e.stopPropagation();
+  const handleFollowBtnClick = (coordinates: LatLng[]) => {
+    // '코스 따라가기' 버튼 클릭 시 코스 따라가기 로직
     router.push('/');
-    clearCourseCoordinates();
-    setCourseCoordinates(coordinates);
+    // 코스 좌표 저장
+    // setCourseCoordinates(coordinates);
   };
 
   const handleCardClick = (postId: number) => {
@@ -116,14 +112,16 @@ export default function LikedPostsPage() {
                   <div className='flex-1 space-y-2 text-sm text-gray-700 content-center'>
                     <div className='flex items-center gap-2'>
                       <FaShoePrints className='text-xl rotate-[-90deg] text-orange-400' />
-                      <span>거리: {Math.round(post.distance * 10) / 10} km</span>
+                      <span>
+                        거리: {Math.round(post.distance * 10) / 10} km
+                      </span>
                     </div>
                     <div className='flex items-center gap-2'>
                       <LuTimer className='text-xl text-orange-400' />
                       <span>소요 시간: {post.duration} 분</span>
                     </div>
                     <div className='flex items-center gap-2 text-xs text-gray-500 mt-1'>
-                      <CiCalendar className="text-xl text-orange-400" />
+                      <CiCalendar className='text-xl text-orange-400' />
                       <span>{formatDate(post.createdAt)}</span>
                     </div>
                   </div>
@@ -136,7 +134,7 @@ export default function LikedPostsPage() {
 
               <CardFooter className='[.border-t]:pt-4 items-center flex flex-col gap-2 p-4 border-t border-orange-100'>
                 <Button
-                  onClick={(e) => handleFollowBtnClick(e, post.coordinates)}
+                  onClick={() => handleFollowBtnClick(post.coordinates)}
                   variant='outline'
                   className='w-full border-orange-300 text-orange-600 hover:bg-orange-50 hover:text-orange-700 flex items-center justify-center gap-2 rounded-xl'
                 >

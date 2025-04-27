@@ -6,6 +6,7 @@ export class GetLikedPostWithSnapshotDto {
     public title: string,
     public content: string,
     public courseId: number,
+    public address: string,
     public coordinates: CoordinateDto[],
     public createdAt: Date,
     public distance: number, // ← 추가

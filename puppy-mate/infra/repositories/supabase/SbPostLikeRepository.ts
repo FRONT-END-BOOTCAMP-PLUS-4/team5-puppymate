@@ -64,6 +64,7 @@ export class SbPostLikeRepository implements PostLikeRepository {
           post.title,
           post.content,
           post.course_id,
+          course.address || '주소 없음', // ✅ address 추가 (5번째 파라미터)
           coordinates,
           new Date(post.created_at),
           Math.round((course.distance / 1000) * 100) / 100,
