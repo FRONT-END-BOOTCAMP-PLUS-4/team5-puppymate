@@ -20,7 +20,11 @@ export const useCourseIdPostQuery = (courseIds: number[]) => {
   const isSuccess = results.every((result) => result.isSuccess);
 
   // 모든 쿼리 데이터를 하나의 배열로 합침
-  const posts = isSuccess ? results.flatMap((result) => result.data || []) : [];
+  const posts = isSuccess
+    ? results
+        .flatMap((result) => result.data || [])
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    : [];
 
   // 모든 쿼리 리패치 (필요 없을 듯?)
   // const refetchAll = async () => {
@@ -29,7 +33,6 @@ export const useCourseIdPostQuery = (courseIds: number[]) => {
   // };
 
   return {
-    results,
     posts,
     isLoading,
     isError,
