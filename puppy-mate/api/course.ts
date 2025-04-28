@@ -18,14 +18,25 @@ export async function createCourse(
   duration: number,
   coordinates: LatLng[]
 ): Promise<number | undefined> {
+  const token = localStorage.getItem('authToken');
+  if (!token) throw new Error('No auth token found');
   const response = await axios
-    .post<CreateCourseResponse>(`${BASE_URL}/api/courses`, {
-      name,
-      address,
-      distance,
-      duration,
-      coordinates,
-    })
+    .post<CreateCourseResponse>(
+      `${BASE_URL}/api/courses`,
+      {
+        name,
+        address,
+        distance,
+        duration,
+        coordinates,
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
     .catch((error) => {
       console.error('Failed to save course:', error);
       throw error;
