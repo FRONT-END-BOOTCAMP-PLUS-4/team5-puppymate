@@ -3,28 +3,23 @@
 ## 🗺️ 지도에서 경로 탐색 & 게시물 조회
 - 클러스터나 마커를 클릭하면 **해당 위치의 게시물 리스트**를 확인할 수 있어요.  
 - `산책로 보기` 버튼을 누르면 **해당 경로가 표시된 지도**로 이동합니다.
-
-<img src="https://github.com/user-attachments/assets/4701e293-742e-441f-85e4-183dd1269763" width="200"/>
+![이미지](https://raw.githubusercontent.com/jwanp/Files/main/PuppyMate/Untitled.GIF)
 
 ---
 
 ## 🐕 산책로 기록하기
 - 상단의 **토글 버튼을 켜면**, 현재 위치를 기반으로 **Polyline이 자동으로 그려지며** 산책이 시작됩니다.  
 - 산책이 끝나면 **토글을 꺼서 경로를 저장**하세요.
-
-<img src="https://github.com/user-attachments/assets/adaed4a0-6dc2-4f7f-a729-417bbc34a3c5" width="200"/>
+![이미지](https://raw.githubusercontent.com/jwanp/Files/main/PuppyMate/Untitled%20(1).GIF)
 
 ---
 
 ## 📝 산책로에 대한 게시물 작성
 - `산책로 공유` 페이지에서 **간편하게 게시글을 작성**할 수 있어요.
-
-<img src="https://github.com/user-attachments/assets/7ee601e2-74f9-432c-ac43-c064fb19f43c" width="200"/>
+![이미지](https://raw.githubusercontent.com/jwanp/Files/main/PuppyMate/Untitled%20(2).GIF)
 
 - `산책로 따라가기` 버튼을 누르면 **해당 경로 위치로 바로 이동**합니다.
-
-<img src="https://github.com/user-attachments/assets/29d442f4-8c96-454a-bc07-197650415bad" width="200"/>
-
+![이미지](https://raw.githubusercontent.com/jwanp/Files/main/PuppyMate/Untitled%20(3).GIF)
 ---
 
 ## 🙋‍♂️ 마이페이지 기능
